@@ -44,7 +44,12 @@ class Product {
 
   addToCart() {
     // const
-    console.log(this.price);
+    const confirmation = confirm(
+      'Are you sure to add ' + this.title + ' in cart?'
+    );
+    if (confirmation) {
+      alert(this.title + ' has been added to cart successfully');
+    }
   }
 }
 
