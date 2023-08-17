@@ -41,6 +41,11 @@ class Product {
     this.thumbnail = product.thumbnail;
     this.images = product.images;
   }
+
+  addToCart() {
+    // const
+    console.log(this.price);
+  }
 }
 
 class Template {
@@ -70,8 +75,7 @@ class Shop {
 
   renderProducts(target: Node, productsList: IProduct[]) {
     const template = new Template('product-template');
-    // const productsContainer = document.querySelector(target);
-    productsList.forEach(({ title, thumbnail, description }) => {
+    productsList.forEach((product) => {
       const html = template.getHTML();
       const titleElem = html.querySelector(
         '.product-title'
@@ -80,10 +84,23 @@ class Shop {
       const desciptionEle = html.querySelector(
         '.product-description'
       ) as HTMLParagraphElement;
+      const priceEle = html.querySelector(
+        '.product-price'
+      ) as HTMLParagraphElement;
+      const addToCartCTA = html.querySelector(
+        '.product-add-to-cart'
+      ) as HTMLButtonElement;
+
+      const prod = new Product(product);
+
+      const { title, thumbnail, description, price, addToCart } = prod;
 
       titleElem.textContent = title;
       imageEle.src = thumbnail;
+      imageEle.width = 250;
+      priceEle.textContent = `Price - $${price}`;
       desciptionEle.textContent = description;
+      addToCartCTA.addEventListener('click', addToCart.bind(prod));
       target.appendChild(html);
     });
   }
