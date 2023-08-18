@@ -27,3 +27,30 @@ body {
   padding: 1rem;
   width: 250px;
 }
+
+.cart {
+  display: flex;
+  justify-content: right;
+  position: relative;
+}
+.cart-list {
+  position: absolute;
+  background: #fff4f4;
+  top: 30px;
+  width: 370px;
+  list-style: none;
+  padding: 1rem;
+  border: 1px solid blanchedalmond;
+
+  display: none;
+}
+.cart-text:hover + ul {
+  display: block;
+}
+
+.cart-product-item {
+  border-bottom: 1px solid blanchedalmond;
+}
+.cart-list li:last-child .cart-product-item {
+  border: none;
+}
