@@ -39,8 +39,8 @@ body {
   top: 30px;
   width: 370px;
   list-style: none;
-  padding: 1rem;
-  border: 1px solid blanchedalmond;
+  padding: 0 1rem;
+  border: 1px solid black;
 
   display: none;
 }
@@ -49,8 +49,41 @@ body {
 }
 
 .cart-product-item {
-  border-bottom: 1px solid blanchedalmond;
+  border-bottom: 1px solid black;
+  display: grid;
+  grid-template-columns: 86px auto;
+  grid-template-rows: repeat(2, 35px);
+  padding: 1rem 0;
 }
 .cart-list li:last-child .cart-product-item {
   border: none;
+}
+
+.cart-product-image-container {
+  grid-column: 1/1;
+  grid-row: 1/3;
+  overflow: hidden;
+  display: flex;
+  align-content: center;
+}
+.cart-product-title-container {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  margin: 0;
+  padding: 0;
+}
+.cart-product-price-container {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.cart-product-image {
+  width: 75px;
+}
+
+.cart-product-title {
+  margin: 0;
+}
+.cart-product-price {
+  margin: 0;
 }

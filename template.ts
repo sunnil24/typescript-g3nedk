@@ -5,7 +5,7 @@ export class Template {
   }
 
   getHTML(): HTMLElement {
-    const template = this.host?.content.cloneNode(true) as HTMLElement;
+    const template = this.host.content.cloneNode(true) as HTMLElement;
     return template;
   }
 }

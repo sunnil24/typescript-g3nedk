@@ -3,8 +3,8 @@ import { ElementPosition, IProduct } from './interface';
 import { Template } from './template';
 
 export class Cart {
-  html: HTMLElement;
-  private cart: IProduct[];
+  readonly html: HTMLElement;
+  private readonly cart: IProduct[];
 
   constructor(private target: HTMLElement) {
     const template = new Template('cart-template');
@@ -13,21 +13,35 @@ export class Cart {
   }
 
   updateCart() {
-    const cartCountElem =
-      this.html.querySelector('.cart-text span') ||
-      document.querySelector('.cart-text span');
+    const cartCountElem = this.html.querySelector('.cart-text span');
 
     if (cartCountElem) {
       cartCountElem.textContent = this.detail.length.toString();
+    } else {
+      document.querySelector('.cart-text span').textContent =
+        this.detail.length.toString();
+      const cartListEle = document.querySelector('.cart-list');
+      cartListEle.innerHTML = '';
+      this.cart.forEach(({ title, thumbnail, price }) => {
+        const list = document.createElement('li');
+        const template = new Template('cart-item').getHTML();
+        (
+          template.querySelector('.cart-product-image') as HTMLImageElement
+        ).src = thumbnail;
+        template.querySelector('.cart-product-title').textContent = title;
+        template.querySelector('.cart-product-price').textContent =
+          '$' + price.toString();
+        list.append(template);
+        cartListEle.insertAdjacentElement('beforeend', list);
+      });
     }
+    this.target.append(this.html);
   }
 
   // @first()
   // @second()
   render() {
     this.updateCart();
-    this.target.append(this.html);
-    // this.target.insertAdjacentElement(this.position, this.html);
   }
 
   add(product: IProduct) {
