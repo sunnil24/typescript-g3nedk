@@ -75,6 +75,11 @@ body {
 .cart-product-price-container {
   grid-column: 2/3;
   grid-row: 2/3;
+  display: flex;
+}
+
+.cart-product-count {
+  margin: 0 1rem 0 0;
 }
 
 .cart-product-image {
