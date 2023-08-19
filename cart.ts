@@ -25,11 +25,31 @@ export class Cart {
     };
   }
 
-  updateCart() {
-    const cartCountElem = this.html.querySelector('.cart-text span');
+  remove(targetProduct: IProduct) {
+    this.cart.products = this.cart.products.filter(
+      ({ product }) => product.title !== targetProduct.title
+    );
+    this.cart.total = this.cart.products.reduce(
+      (total, { product: { price }, count }) => total + price * count,
+      0
+    );
+    this.updateCart();
+  }
 
-    if (cartCountElem) {
+  updateCart() {
+    const cartCountElem =
+      this.html.querySelector('.cart-text span') ||
+      document.querySelector('.cart-text span');
+
+    if (!this.cart.products.length) {
       cartCountElem.textContent = this.detail.products.length.toString();
+      const cartListEle = document.querySelector('.cart-list');
+      if (cartListEle) {
+        cartListEle.innerHTML = `<li>
+        <div class="cart-empty"><p>There is nothing in cart</p></div>
+      </li>`;
+      } else {
+      }
     } else {
       document.querySelector('.cart-text span').textContent =
         this.detail.products.length.toString();
@@ -48,7 +68,13 @@ export class Cart {
         ).textContent = `Count - ${count}`;
         template.querySelector('.cart-product-price').textContent =
           'Price - $' + price.toString();
+        template
+          .querySelector('.cart-item-remove')
+          .addEventListener('click', () => {
+            this.remove(product);
+          });
         list.append(template);
+
         cartListEle.insertAdjacentElement('beforeend', list);
       });
       const li = document.createElement('h3');
