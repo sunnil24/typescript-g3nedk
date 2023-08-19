@@ -64,7 +64,6 @@ export class Shop {
 
     titleEle.textContent = this.title;
     this.renderProducts(productsContainer, products);
-    console.log(this.cart.html);
     this.cart.render();
     this.host.appendChild(this.html);
   }

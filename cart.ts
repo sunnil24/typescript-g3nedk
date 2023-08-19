@@ -1,13 +1,15 @@
 import { first, second } from './decorators';
-import { ElementPosition, IProduct } from './interface';
+import { IProduct } from './interface';
 import { Template } from './template';
+
+interface ICartProduct {
+  count: number;
+  product: IProduct;
+}
 
 interface ICart {
   total: number;
-  products: {
-    quantity: number;
-    product: IProduct;
-  }[];
+  products: ICartProduct[];
 }
 
 export class Cart {
@@ -33,7 +35,7 @@ export class Cart {
         this.detail.products.length.toString();
       const cartListEle = document.querySelector('.cart-list');
       cartListEle.innerHTML = '';
-      this.cart.products.forEach(({ product }) => {
+      this.cart.products.forEach(({ product, count }) => {
         const { title, thumbnail, price } = product;
         const list = document.createElement('li');
         const template = new Template('cart-item').getHTML();
@@ -41,7 +43,9 @@ export class Cart {
           template.querySelector('.cart-product-image') as HTMLImageElement
         ).src = thumbnail;
         template.querySelector('.cart-product-title').textContent = title;
-        template.querySelector('.cart-product-count').textContent = 'Count - 1';
+        template.querySelector(
+          '.cart-product-count'
+        ).textContent = `Count - ${count}`;
         template.querySelector('.cart-product-price').textContent =
           'Price - $' + price.toString();
         list.append(template);
@@ -61,12 +65,27 @@ export class Cart {
   }
 
   add(product: IProduct) {
-    this.cart.products.push({
-      quantity: 1,
-      product,
-    });
+    const { title } = product;
+
+    const hasAlreadyInCart = this.cart.products.some(
+      ({ product }) => product.title === title
+    );
+    if (hasAlreadyInCart) {
+      this.cart.products = this.cart.products.map((products) => ({
+        ...products,
+        ...(products.product.title === title
+          ? { count: products.count + 1 }
+          : {}),
+      }));
+    } else {
+      this.cart.products.push({
+        product,
+        count: 1,
+      });
+    }
+
     this.cart.total = this.cart.products.reduce(
-      (total, { product: { price } }) => total + price,
+      (total, { product: { price }, count }) => total + price * count,
       0
     );
     this.updateCart();
