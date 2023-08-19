@@ -57,10 +57,33 @@ export class Cart {
     }
   }
 
+  toggleDropdown(e: MouseEvent) {
+    e.preventDefault();
+    const ele = e.target as HTMLButtonElement;
+    ele.classList.toggle('open-cart-list');
+  }
+
+  closeDropdown(e: any) {
+    e.preventDefault();
+    const ele = document.querySelector('.open-cart-list') as HTMLButtonElement;
+    const isCartListATarget =
+      e.explicitOriginalTarget.parentElement.closest('.cart-list');
+
+    if (ele && !isCartListATarget) {
+      ele.classList.remove('open-cart-list');
+    }
+  }
+
   // @first()
   // @second()
   render() {
     this.updateCart();
+    this.html
+      .querySelector('.cart-text')
+      .addEventListener('click', this.toggleDropdown);
+    this.html
+      .querySelector('.cart-text')
+      .addEventListener('blur', this.closeDropdown);
     this.target.append(this.html);
   }
 

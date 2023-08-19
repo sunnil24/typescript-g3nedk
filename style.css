@@ -44,8 +44,16 @@ body {
 
   display: none;
 }
-.cart-text:hover + ul {
+.cart-text.open-cart-list + ul {
   display: block;
+}
+
+.cart-text {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .cart-product-item {
