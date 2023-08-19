@@ -2,6 +2,7 @@ import { IProduct } from './interface';
 import { Product } from './product';
 import { Template } from './template';
 import { Cart } from './cart';
+import { Dialog } from './dialog';
 
 export class Shop {
   private host: HTMLElement;
@@ -61,10 +62,11 @@ export class Shop {
 
     const titleEle = this.html.querySelector('.shop-title');
     const productsContainer = this.html.querySelector('.products-conatainer');
-
     titleEle.textContent = this.title;
     this.renderProducts(productsContainer, products);
     this.cart.render();
     this.host.appendChild(this.html);
+    const dialog = new Dialog('.products-conatainer');
+    dialog.render();
   }
 }
